@@ -29,6 +29,18 @@ bookRouter.route('/Books')
     });
   });
 
+
+bookRouter.route('/Books/:bookId')
+.get(function (request, response) {
+
+    Book.findById(request.params.bookId, function (error, book) {
+      if (error)
+        response.status(500).send(error);
+      else
+        response.json(book);
+    });
+  });
+
 app.use('/api', bookRouter);
 
 app.get('/', function (req, res) {
