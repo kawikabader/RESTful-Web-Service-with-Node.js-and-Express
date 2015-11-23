@@ -1,4 +1,10 @@
-var express = require('express');
+var express = require('express'),
+    mongoose = require('mongoose');
+
+var db = mongoose.connect('mongodb://localhost/bookAPI');
+
+var Book = require('./models/bookModel');
+
 
 var app = express();
 
@@ -8,10 +14,12 @@ var bookRouter = express.Router();
 
 bookRouter.route('/Books')
   .get(function (request, response) {
-    var responseJson = { hello: 'This is my API.' };
-    
-    // Sending json response
-    response.json(responseJson);
+    Book.find(function (error, books) {
+      if (error)
+        response.status(500).send(error);
+      else
+        response.json(books);
+    });
   });
 
 app.use('/api', bookRouter);
