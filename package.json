@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/kawikabader/RESTful-Web-Service-with-Node.js-and-Express#readme",
   "dependencies": {
+    "body-parser": "^1.14.1",
     "express": "^4.13.3",
     "gulp": "^3.9.0",
     "gulp-nodemon": "^2.0.4",
