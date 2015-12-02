@@ -1,5 +1,6 @@
 var express = require('express'),
-    mongoose = require('mongoose');
+    mongoose = require('mongoose'),
+    bodyParser = require('body-parser');
 
 var db = mongoose.connect('mongodb://localhost/bookAPI');
 
@@ -10,38 +11,13 @@ var app = express();
 
 var port = process.env.PORT || 3000;
 
-var bookRouter = express.Router();
+app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.json());
 
-bookRouter.route('/Books')
-  .get(function (request, response) {
-    
-    var query = {};
-    
-    if (request.query.genre)
-    {
-      query.genre = request.query.genre;
-    }
-    Book.find(query, function (error, books) {
-      if (error)
-        response.status(500).send(error);
-      else
-        response.json(books);
-    });
-  });
+bookRouter = require('./Routes/bookRoutes')(Book);
 
-
-bookRouter.route('/Books/:bookId')
-.get(function (request, response) {
-
-    Book.findById(request.params.bookId, function (error, book) {
-      if (error)
-        response.status(500).send(error);
-      else
-        response.json(book);
-    });
-  });
-
-app.use('/api', bookRouter);
+app.use('/api/books', bookRouter);
+app.use('/api/authors', authorRouter);
 
 app.get('/', function (req, res) {
   res.send('Welcome to my API!');
