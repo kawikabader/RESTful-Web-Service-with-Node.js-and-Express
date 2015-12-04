@@ -5,7 +5,7 @@ var bookController = function (Book) {
     book.save();
     response.status(201).send(book);
 
-  }
+  };
   var get = function (request, response) {
 
     var query = {};
@@ -19,11 +19,11 @@ var bookController = function (Book) {
       else
         response.json(books);
     });
-  }
+  };
   return {
     post: post,
     get: get
-  }
+  };
 };
 
 module.exports = bookController;
